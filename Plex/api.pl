@@ -105,7 +105,7 @@ foreach my $libs (keys %{$plexfinal{'Libraries'}}) {
 foreach my $section (keys %{$plexfinal{'Libraries'}}) {
 	my $section_id = $plexfinal{'Libraries'}{$section}{'section_id'};
 	my $get_recently_added_url = $baseurl->clone;
-	$get_recently_added_url->query( "apikey=$apikey&count=2500&section_id=$section_id&cmd=get_recently_added" );
+	$get_recently_added_url->query( "apikey=$apikey&count=25&section_id=$section_id&cmd=get_recently_added" );
 	my $get_recently_added = get( $get_recently_added_url );
 	die "Could not get $get_recently_added_url!" unless defined $get_recently_added;
 	my $decoded_get_recently_added = decode_json( $get_recently_added );
