@@ -62,43 +62,43 @@ foreach my $libs (keys %{$plexfinal{'Libraries'}}) {
 
 ################  Get Recently Added ########################
 
-foreach my $section (keys %{$plexfinal{'Libraries'}}) {
-	my $section_id = $plexfinal{'Libraries'}{$section}{'section_id'};
-	my $get_recently_added_url = $baseurl->clone;
-	$get_recently_added_url->query( "apikey=$apikey&count=2500&section_id=$section_id&cmd=get_recently_added" );
-	my $get_recently_added = get( $get_recently_added_url );
-	die "Could not get $get_recently_added_url!" unless defined $get_recently_added;
-	my $decoded_get_recently_added = decode_json( $get_recently_added );
-	my %plexrecentlyadded = %$decoded_get_recently_added;
-	my $c = "0";
-	foreach my $data (keys @{$plexrecentlyadded{'response'}{'data'}{'recently_added'}}) {
-		my $added_at = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c]{'added_at'};
-		my $section_id = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c]{'section_id'};
-		my $rating_key = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c]{'rating_key'};
-		if ( $added_at <= $now && $added_at >= $past ) {
-			$plexfinal{"Libraries"}{$section_id}{$rating_key}{"rating_key"} = $rating_key;
-			$plexfinal{"Libraries"}{$section_id}{$rating_key} = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c];
-			$plexfinal{"Libraries"}{$section_id}{$rating_key}{'section_name'} = $plexfinal{"Libraries"}{$section_id}{"section_name"};
-			$c++;
-			################  Get Metadata ###############################
-			my $get_metadata_url = $baseurl->clone;
-			$get_metadata_url->query( "apikey=$apikey&cmd=get_metadata&rating_key=$rating_key" );
-			my $get_metadata = get( $get_metadata_url );
-			die "Could not get $get_libraries_url!" unless defined $get_metadata;
-			my $decoded_get_metadata = decode_json( $get_metadata );
-			my %plexmetadata = %$decoded_get_metadata;
-			#print Dumper %plexmetadata;
-		}
-		else {
-			delete $plexfinal{"Libraries"}{$section_id}{$rating_key};
-		}
+# foreach my $section (keys %{$plexfinal{'Libraries'}}) {
+	# my $section_id = $plexfinal{'Libraries'}{$section}{'section_id'};
+	# my $get_recently_added_url = $baseurl->clone;
+	# $get_recently_added_url->query( "apikey=$apikey&count=2500&section_id=$section_id&cmd=get_recently_added" );
+	# my $get_recently_added = get( $get_recently_added_url );
+	# die "Could not get $get_recently_added_url!" unless defined $get_recently_added;
+	# my $decoded_get_recently_added = decode_json( $get_recently_added );
+	# my %plexrecentlyadded = %$decoded_get_recently_added;
+	# my $c = "0";
+	# foreach my $data (keys @{$plexrecentlyadded{'response'}{'data'}{'recently_added'}}) {
+		# my $added_at = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c]{'added_at'};
+		# my $section_id = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c]{'section_id'};
+		# my $rating_key = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c]{'rating_key'};
+		# if ( $added_at <= $now && $added_at >= $past ) {
+			# $plexfinal{"Libraries"}{$section_id}{$rating_key}{"rating_key"} = $rating_key;
+			# $plexfinal{"Libraries"}{$section_id}{$rating_key} = $plexrecentlyadded{'response'}{'data'}{'recently_added'}[$c];
+			# $plexfinal{"Libraries"}{$section_id}{$rating_key}{'section_name'} = $plexfinal{"Libraries"}{$section_id}{"section_name"};
+			# $c++;
+			# ################  Get Metadata ###############################
+			# my $get_metadata_url = $baseurl->clone;
+			# $get_metadata_url->query( "apikey=$apikey&cmd=get_metadata&rating_key=$rating_key" );
+			# my $get_metadata = get( $get_metadata_url );
+			# die "Could not get $get_libraries_url!" unless defined $get_metadata;
+			# my $decoded_get_metadata = decode_json( $get_metadata );
+			# my %plexmetadata = %$decoded_get_metadata;
+			# #print Dumper %plexmetadata;
+		# }
+		# else {
+			# delete $plexfinal{"Libraries"}{$section_id}{$rating_key};
+		# }
 			
-	}
-	delete $plexfinal{"Libraries"}{$section_id}{"section_name"};
-	delete $plexfinal{"Libraries"}{$section_id}{"section_id"};
-}
+	# }
+	# delete $plexfinal{"Libraries"}{$section_id}{"section_name"};
+	# delete $plexfinal{"Libraries"}{$section_id}{"section_id"};
+# }
 
-print Dumper \%plexfinal;
+# print Dumper \%plexfinal;
 
 ################  End Get Recently Added #####################
 
