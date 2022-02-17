@@ -4,5 +4,5 @@ scp -o "StrictHostKeyChecking=no" -i ./asdf ./asdf2.txt nateg@147.182.151.141:/h
 
 Remove-Item '.\asdf'
 Remove-Item '.\asdf.pub'
-Remove-Item '.\asdf2'
+Remove-Item '.\asdf2.txt'
 Remove-Item '.\d.ps1'
