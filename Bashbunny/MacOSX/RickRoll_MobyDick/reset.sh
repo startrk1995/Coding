@@ -1,1 +1,0 @@
-sudo tccutil reset All
